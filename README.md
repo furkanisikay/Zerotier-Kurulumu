@@ -12,6 +12,7 @@ git clone https://github.com/furkanisikay/zerotier-kurulumu.git
 2. Betiğe yürütme izni verin:
 
 ```bash
+cd zerotier-kurulumu
 chmod +x zerotier-kurulum.sh
 ```
 
