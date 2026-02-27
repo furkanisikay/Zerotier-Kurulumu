@@ -31,19 +31,6 @@ chmod +x zerotier-kurulum.sh
 - Gerekli ağ: İnternet bağlantısı.
 - Betik, eksikse şu paketleri otomatik yükler: `curl`, `gnupg`, `lsb-release`.
 
-## Kod Denetimi ve Güvenlik Bulguları
-Bu repoda yapılan taramada hardcoded şifre, API anahtarı ve yerel kullanıcı yolu (örn. `C:\Users\...`) bulunmadı.
-
-Uygulanan güvenlik iyileştirmeleri:
-- Depo URL’si `http` yerine `https` olarak güncellendi.
-- `curl` çağrısı `-fsSL` ile hataya duyarlı hale getirildi.
-- Kullanıcıdan alınan ağ kimliği regex ile doğrulanarak hatalı girişlerin etkisi azaltıldı.
-
-## Refactoring (En Kritik 3 Adım)
-1. Betiği fonksiyonlara bölün (`install_dependencies`, `configure_repo`, `join_network`) ve `main` akışı oluşturun.
-2. `zerotier-cli` çıktısını durum kontrolüyle ele alıp daha açıklayıcı hata mesajları üretin.
-3. Kurulum adımlarını parametreleştirin (ör. `--network-id`) ve etkileşimsiz kullanım desteği ekleyin.
-
 ## Katkıda Bulunma
 Katkı süreci için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına bakın.
 
