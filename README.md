@@ -1,53 +1,51 @@
-# ZeroTier Kurulumu
-Bu Github deposu, ZeroTier One'ı Debian tabanlı işletim sistemlerine kurmak için bir bash betiği içerir. Betik, kullanıcıdan bir ağ kimliği alarak o ağa katılır.
+# ZeroTier Kurulumu (Debian/Ubuntu)
 
-## Kullanım:
+![Bash](https://img.shields.io/badge/Shell-Bash-121011?logo=gnu-bash&logoColor=white)
+![Linux](https://img.shields.io/badge/Platform-Debian%2FUbuntu-E95420?logo=ubuntu&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-1. Depoyu klonlayın:
+## Neden Bu Proje?
+Bu proje, Debian tabanlı sistemlerde ZeroTier One kurulumunu ve belirli bir ağa katılım adımlarını tek bir güvenli bash betiğiyle otomatikleştirir; böylece elle yapılan kurulumlarda görülen zaman kaybını, yapılandırma hatalarını ve tekrarlı komut girişlerini azaltarak özellikle hızlı ortam hazırlığı gereken ekipler için güvenilir bir başlangıç sağlar.
+
+## Mimari / Özellikler
+- ZeroTier resmi GPG anahtarını sisteme ekler.
+- Dağıtım kod adını (`lsb_release -cs`) algılayarak doğru depo kaynağını tanımlar.
+- `apt` ile ZeroTier One paketini otomatik kurar.
+- Kullanıcıdan ağ kimliği alır ve `zerotier-cli join` ile ağa bağlanır.
+- Ağ kimliği için temel biçim doğrulaması yapar (16 karakter hexadecimal).
+- Betik başında `set -euo pipefail` ile hataya dayanıklılığı artırır.
+
+## Hızlı Başlangıç
+Aşağıdaki komutları kopyala-yapıştır yaparak kurulumu başlatabilirsiniz:
 
 ```bash
-git clone https://github.com/furkanisikay/zerotier-kurulumu.git
-```
-
-2. Betiğe yürütme izni verin:
-
-```bash
-cd zerotier-kurulumu
+git clone https://github.com/furkanisikay/Zerotier-Kurulumu.git
+cd Zerotier-Kurulumu
 chmod +x zerotier-kurulum.sh
-```
-
-3. Betiği çalıştırın:
-
-```bash
 ./zerotier-kurulum.sh
 ```
 
-4. Ekrandaki talimatları izleyin ve ağ kimliğini girin.
+## Ortam Kurulumu
+- Desteklenen sistem: Debian/Ubuntu tabanlı Linux dağıtımları.
+- Gerekli yetki: `sudo` erişimi.
+- Gerekli ağ: İnternet bağlantısı.
+- Betik, eksikse şu paketleri otomatik yükler: `curl`, `gnupg`, `lsb-release`.
 
-## Notlar:
+## Kod Denetimi ve Güvenlik Bulguları
+Bu repoda yapılan taramada hardcoded şifre, API anahtarı ve yerel kullanıcı yolu (örn. `C:\Users\...`) bulunmadı.
 
-- Bu betik, Debian tabanlı işletim sistemleri için tasarlanmıştır.
-- Betiği çalıştırmadan önce internet bağlantınız olduğundan emin olun.
-- Betik, ZeroTier One'ı varsayılan ayarlarla kurar. Özel ayarlar için ZeroTier One belgelerine bakın.
+Uygulanan güvenlik iyileştirmeleri:
+- Depo URL’si `http` yerine `https` olarak güncellendi.
+- `curl` çağrısı `-fsSL` ile hataya duyarlı hale getirildi.
+- Kullanıcıdan alınan ağ kimliği regex ile doğrulanarak hatalı girişlerin etkisi azaltıldı.
 
-## Ek Özellikler:
+## Refactoring (En Kritik 3 Adım)
+1. Betiği fonksiyonlara bölün (`install_dependencies`, `configure_repo`, `join_network`) ve `main` akışı oluşturun.
+2. `zerotier-cli` çıktısını durum kontrolüyle ele alıp daha açıklayıcı hata mesajları üretin.
+3. Kurulum adımlarını parametreleştirin (ör. `--network-id`) ve etkileşimsiz kullanım desteği ekleyin.
 
-- Betiğe, ağa katıldıktan sonra otomatik olarak bir IP adresi almasını sağlayacak kodlar ekleyebilirsiniz.
-- Betiğe, birden fazla ağa katılma özelliği ekleyebilirsiniz.
-## Sorun Giderme:
+## Katkıda Bulunma
+Katkı süreci için [CONTRIBUTING.md](CONTRIBUTING.md) dosyasına bakın.
 
-- Betik çalışırken herhangi bir hata alırsanız, hata mesajını internette aratarak çözüm bulabilirsiniz.
-- ZeroTier One ile ilgili daha fazla bilgi için ZeroTier One belgelerine bakabilirsiniz.
-
-## Katkıda Bulunma:
-
-Bu betiğe katkıda bulunmak isterseniz, pull request göndermeniz açığız.
-
-## Lisans:
-
-Bu betik MIT Lisansı kapsamında lisanslanmıştır.
-
-## Bağlantılar:
-
-- ZeroTier One Web Sitesi: https://www.zerotier.com/
-- ZeroTier One Belgeleri: https://docs.zerotier.com/
+## Lisans
+Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
